@@ -20,7 +20,6 @@ class CreatePostsTable extends Migration
             $table->string('description')->nullable();
             $table->string('url');
             $table->dateTime('date_published')->nullable();
-            $table->boolean('read')->default(false);
 
             $table->timestamps();
 

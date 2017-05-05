@@ -24,6 +24,13 @@ Route::group(['prefix' => 'feed'], function() {
     Route::put(   '/{feed}', 'FeedsController@update');
 });
 
+Route::group(['prefix' => 'user-feed'], function() {
+    Route::post('/', 'UserFeedsController@store');
+    Route::delete('/{user_feed}', 'UserFeedsController@destroy');
+    Route::put('/{user_feed}', 'UserFeedsController@update');
+});
+
 Route::group(['prefix' => 'post'], function() {
     Route::post('/load', 'PostsController@load');
+    Route::post('/{post}/read', 'PostsController@markRead');
 });

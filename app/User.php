@@ -2,7 +2,8 @@
 
 namespace App;
 
-use App\Feed;
+use App\UserFeed;
+use App\UserPost;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -28,8 +29,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function feed()
+    public function user_feed()
     {
-        return $this->hasMany(Feed::class);
+        return $this->hasMany(UserFeed::class);
+    }
+
+    public function user_post()
+    {
+        return $this->hasMant(UserPost::class);
     }
 }

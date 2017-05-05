@@ -3,18 +3,22 @@
 namespace App;
 
 use App\Feed;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class UserFeed extends Model
 {
     protected $fillable = [
-        'feed_id', 'title', 'description', 'url', 'date_published',
+        'title', 'user_id', 'feed_id',
     ];
-
-    protected $dateFormat = 'U';
 
     public function feed()
     {
         return $this->belongsTo(Feed::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

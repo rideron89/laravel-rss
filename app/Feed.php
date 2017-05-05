@@ -9,16 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 class Feed extends Model
 {
     protected $fillable = [
-        'user_id', 'url', 'label',
+        'url',
     ];
 
     public function post()
     {
         return $this->hasMany(Post::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
     }
 }

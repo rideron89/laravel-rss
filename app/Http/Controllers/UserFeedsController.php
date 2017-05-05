@@ -3,20 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Feed;
+use App\UserFeed;
 use Illuminate\Http\Request;
 
-class FeedsController extends Controller
+class UserFeedsController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -24,9 +15,7 @@ class FeedsController extends Controller
      */
     public function index()
     {
-        $feeds = UserFeed::where('user_id', Auth::user()->id)->get();
-
-        return $feeds;
+        //
     }
 
     /**
@@ -37,7 +26,9 @@ class FeedsController extends Controller
      */
     public function store(Request $request)
     {
-        Feed::create($request->all());
+        $feed = Feed::firstOrNew(['url' => $request->input('url')]);
+
+        UserFeed::create(array_merge($request->all(), ['feed_id' => $feed->id]));
 
         return redirect()->back();
     }
@@ -45,24 +36,24 @@ class FeedsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Feed  $feed
+     * @param  \App\UserFeed  $userFeed
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Feed $feed)
+    public function show(UserFeed $userFeed)
     {
-        return view('feeds.show', compact('feed'));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Feed  $feed
+     * @param  \App\UserFeed  $userFeed
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Feed $feed)
+    public function update(Request $request, UserFeed $userFeed)
     {
-        $feed->update($request->all());
+        $userFeed->update($request->all());
 
         return redirect()->back();
     }
@@ -70,12 +61,12 @@ class FeedsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Feed  $feed
+     * @param  \App\UserFeed  $userFeed
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Feed $feed)
+    public function destroy(UserFeed $userFeed)
     {
-        $feed->delete();
+        $userFeed->delete();
 
         return redirect()->back();
     }

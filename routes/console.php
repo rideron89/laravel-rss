@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostsController as PostsController;
 use Illuminate\Foundation\Inspiring;
 
 /*
@@ -16,3 +17,9 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('purge:read', function () {
+    $count = PostsController::purgeRead();
+
+    $this->comment($count);
+})->describe('Purge old, read post entries');

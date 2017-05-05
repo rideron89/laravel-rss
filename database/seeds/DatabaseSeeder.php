@@ -1,5 +1,8 @@
 <?php
 
+use App\Feed;
+use App\User;
+use App\UserFeed;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +16,33 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
 
-        DB::table('users')->insert([
+        $admin = User::create([
             'username' => 'admin',
             'email' => 'rideron89@gmail.com',
             'password' => bcrypt('bob'),
             'real_name' => 'Ron Rider',
+        ]);
+
+        $cbsFinance = Feed::create(['url' => 'http://www.cnbc.com/id/10000664/device/rss/rss.html']);
+        $cbsBusiness = Feed::create(['url' => 'http://www.cnbc.com/id/10001147/device/rss/rss.html']);
+        $fanGraphs = Feed::create(['url' => 'http://www.fangraphs.com/blogs/feed/']);
+
+        UserFeed::create([
+            'title' => 'CBS Finance',
+            'user_id' => $admin->id,
+            'feed_id' => $cbsFinance->id,
+        ]);
+
+        UserFeed::create([
+            'title' => 'CBS Business',
+            'user_id' => $admin->id,
+            'feed_id' => $cbsBusiness->id,
+        ]);
+
+        UserFeed::create([
+            'title' => 'FanGraphs',
+            'user_id' => $admin->id,
+            'feed_id' => $fanGraphs->id,
         ]);
     }
 }

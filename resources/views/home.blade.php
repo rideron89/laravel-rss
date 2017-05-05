@@ -3,10 +3,10 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Dashboard
+                    Dashboard <strong>({{ $unreadCount }} unread posts)</strong>
 
                     <form class="pull-right" method="post" action="{{ url('/api/post/load') }}">
                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" />
@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <form method="get" action="{{ url('/home') }}">
+                    <form method="get" action="{{ url('/') }}">
                         <div class="input-group">
                             <input class="form-control" type="text" name="search" id="search" value="{{ app('request')->input('search') }}" />
 
@@ -28,30 +28,49 @@
                         </div>
                     </form>
 
+                    <div style="height: 10px;"></div>
 
-                    @if (count($posts) < 1)
-                        <div style="height: 25px;"></div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h4>Filter by Feed</h4>
 
-                        <p>No posts were found.</p>
-                    @else
-                        <div style="height: 10px;"></div>
+                            <ul class="list-group">
+                                @foreach ($feeds as $feed)
+                                    <a href="{{ url('/') }}?feed={{ $feed->id }}" class="list-group-item">
+                                        {{ $feed->title }}
+                                    </a>
+                                @endforeach
+                            </ul>
+                        </div>
 
-                        <ul class="list-group">
-                            @foreach ($posts as $post)
-                                <li class="list-group-item">
-                                    <h4><a href="{{ $post->url }}" target="_blank">{{ $post->title }}</a></h4>
+                        <div class="col-md-10">
+                            @if (count($posts) < 1)
+                                <div style="height: 25px;"></div>
 
-                                    <p>{{ $post->description }}</p>
+                                <p>No posts were found.</p>
+                            @else
+                                <ul class="list-group">
+                                    @foreach ($posts as $post)
+                                        <li class="list-group-item">
+                                            <h4><home-post-link
+                                                post-id="{{ $post->id }}"
+                                                href="{{ $post->url }}"
+                                                target="_blank"
+                                                text="{{ $post->title }}"></home-post-link></h4>
 
-                                    <p>Published on: {{ $post->date_published }}{{ $post->read ? '(read)' : '' }}</p>
-                                </li>
-                            @endforeach
-                        </ul>
+                                            <p>{{ $post->description }}</p>
 
-                        <div style="height: 10px;"></div>
+                                            <p><em>Published on: {{ $post->date_published }} ({{ $post->shortUrl }})</em></p>
+                                        </li>
+                                    @endforeach
+                                </ul>
 
-                        <div class="text-center">{{ $posts->links() }}</div>
-                    @endif
+                                <div style="height: 10px;"></div>
+
+                                <div class="text-center">{{ $posts->links() }}</div>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

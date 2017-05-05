@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFeedsTable extends Migration
+class CreateUserFeedsMigration extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,15 @@ class CreateFeedsTable extends Migration
      */
     public function up()
     {
-        Schema::create('feeds', function (Blueprint $table) {
+        Schema::create('user_feeds', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('url')->unique();
+            $table->string('title');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('feed_id');
 
             $table->timestamps();
+
+            $table->unique(['user_id', 'feed_id']);
         });
     }
 
@@ -28,6 +32,6 @@ class CreateFeedsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('feeds');
+        Schema::dropIfExists('user_feeds');
     }
 }

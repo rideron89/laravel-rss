@@ -45,7 +45,9 @@ class PostsController extends Controller
                             } else if ($arr[$j]['tag'] === 'pubDate') {
                                 $post['date_published'] = $arr[$j]['value'];
                             } else {
-                                $post[$arr[$j]['tag']] = $arr[$j]['value'];
+                                if (isset($arr[$j]['value'])) {
+                                    $post[$arr[$j]['tag']] = $arr[$j]['value'];
+                                }
                             }
                         }
 
@@ -58,5 +60,37 @@ class PostsController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function markRead(Request $request, Post $post)
+    {
+        $post['read'] = true;
+
+        $post->save();
+
+        return response($post);
+    }
+
+    /**
+    * Default: 3 days
+    */
+    public static function purgeRead($time = 259200)
+    {
+        // $limit = date('y-m-d H:i:s', time() - $time);
+        $limit = time();
+
+        $posts = Post::where('read', 1)
+            // ->where('updated_at->timestamp', '<=', $limit)
+            // ->where('updated_at->timestamp', '=', '1493995669')
+            ->orderBy('updated_at', 'desc')
+            ->first();
+
+        // return count($posts);
+        return json_encode([
+            '$limit' => $limit,
+            '$posts->updated_at' => $posts->updated_at,
+            // '$posts->updated_at->timestamp' => $posts->updated_at->timestamp,
+            // 'difference' => $limit - $posts->updated_at->timestamp,
+        ]);
     }
 }
