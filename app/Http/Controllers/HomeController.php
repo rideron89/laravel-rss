@@ -31,33 +31,32 @@ class HomeController extends Controller
         $feed   = $request->input('feed');
         $search = $request->input('search');
 
-        // load all feeds associated with the user
-        $feeds = UserFeed::where('user_id', Auth::user()->id)->get();
+        $userFeeds = UserFeed::with('feed')->where('user_id', Auth::user()->id)->get();
 
         // load posts based on query arguments
-        $posts = Post::whereIn('feed_id', $feeds->pluck('feed_id'))
+        $posts = Post::whereIn('feed_id', $userFeeds->pluck('feed.id'))
             // ->where('read', '=', false)
             ->when($search, function($query) use ($search) {
                 return $query->where('title', 'like', '%' . $search . '%')
                     ->orWhere('description', 'like', '%' . $search . '%');
             })
             ->when($feed, function($query) use ($feed) {
+                // TODO: probably doesn't work as expected
                 return $query->where('feed_id', '=', $feed);
             })
             ->orderBy('updated_at', 'DESC')
             ->simplePaginate(15);
 
         // count the unread posts based on query arguments
-        $unreadCount = -1;
-        // $unreadCount = Post::where('read', false)
-        //     ->when($feed, function($query) use ($feed) {
-        //         return $query->where('feed_id', '=', $feed);
-        //     })
-        //     ->when($search, function($query) use ($search) {
-        //         return $query->where('title', 'like', '%' . $search . '%')
-        //             ->orWhere('description', 'like', '%' . $search . '%');
-        //     })
-        //     ->count();
+        $unreadCount = Post::when($feed, function($query) use ($feed) {
+                // TODO: probably doesn't work as expected
+                return $query->where('feed_id', '=', $feed);
+            })
+            ->when($search, function($query) use ($search) {
+                return $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            })
+            ->count();
 
         // include a shortened version of each post URL
         foreach ($posts as $post) {
@@ -66,7 +65,7 @@ class HomeController extends Controller
             $post['shortUrl'] = $host;
         }
 
-        return view('home', compact('feeds', 'posts', 'unreadCount'));
+        return view('home', compact('userFeeds', 'posts', 'unreadCount'));
     }
 
     public function feeds()

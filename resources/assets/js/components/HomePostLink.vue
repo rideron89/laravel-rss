@@ -37,24 +37,24 @@
 
         methods: {
             click: function(ev) {
-                axios({
-                    method: 'post',
-                    url: '/api/post/' + this.computedPostId + '/read'
-                }).then((response) => {
-                    if (response.data.read) {
-                        var $item = this.$el;
+                // axios({
+                //     method: 'post',
+                //     url: '/api/post/' + this.computedPostId + '/read'
+                // }).then((response) => {
+                //     if (response.data.read) {
+                //         var $item = this.$el;
 
-                        // find the closest parent node with .list-group-item
-                        while ($item.className.indexOf('list-group-item') === -1) {
-                            $item = $item.parentNode;
-                        }
+                //         // find the closest parent node with .list-group-item
+                //         while ($item.className.indexOf('list-group-item') === -1) {
+                //             $item = $item.parentNode;
+                //         }
 
-                        // if the .list-group-item was found, hide it
-                        if ($item.className.indexOf('list-group-item') !== -1) {
-                            $item.style.display = 'none';
-                        }
-                    }
-                });
+                //         // if the .list-group-item was found, hide it
+                //         if ($item.className.indexOf('list-group-item') !== -1) {
+                //             $item.style.display = 'none';
+                //         }
+                //     }
+                // });
             }
         }
     }

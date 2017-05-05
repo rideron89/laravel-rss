@@ -35,7 +35,7 @@
                             <h4>Filter by Feed</h4>
 
                             <ul class="list-group">
-                                @foreach ($feeds as $feed)
+                                @foreach ($userFeeds as $feed)
                                     <a href="{{ url('/') }}?feed={{ $feed->id }}" class="list-group-item">
                                         {{ $feed->title }}
                                     </a>
@@ -60,7 +60,7 @@
 
                                             <p>{{ $post->description }}</p>
 
-                                            <p><em>Published on: {{ $post->date_published }} ({{ $post->shortUrl }})</em></p>
+                                            <p><em>Published on: {{ date('d-m-Y H:m:s', $post->date_published) }} ({{ $post->shortUrl }})</em></p>
                                         </li>
                                     @endforeach
                                 </ul>

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
-    public function load(Request $request)
+    public function loadOLD(Request $request)
     {
         $feeds = Feed::where(['user_id' => $request->input('user_id')])->get();
         $posts = [];
