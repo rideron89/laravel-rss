@@ -7,14 +7,6 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Dashboard <strong>({{ $unreadCount }} unread posts)</strong>
-
-                    <form class="pull-right" method="post" action="{{ url('/api/post/load') }}">
-                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" />
-
-                        <button class="btn btn-sm btn-primary" type="submit">Refresh</button>
-                    </form>
-
-                    <div style="height: 5px;"></div>
                 </div>
 
                 <div class="panel-body">
@@ -44,6 +36,17 @@
                         </div>
 
                         <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    Sort by:
+                                    <a href="{{ url('/') }}?orderBy=date_published:desc">Newest first</a>
+                                    |
+                                    <a href="{{ url('/') }}?orderBy=date_published:asc">Oldest first</a>
+
+                                    <div style="height: 10px;"></div>
+                                </div>
+                            </div>
+
                             @if (count($posts) < 1)
                                 <div style="height: 25px;"></div>
 

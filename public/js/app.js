@@ -1868,24 +1868,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         click: function click(ev) {
-            // axios({
-            //     method: 'post',
-            //     url: '/api/post/' + this.computedPostId + '/read'
-            // }).then((response) => {
-            //     if (response.data.read) {
-            //         var $item = this.$el;
+            var _this = this;
 
-            //         // find the closest parent node with .list-group-item
-            //         while ($item.className.indexOf('list-group-item') === -1) {
-            //             $item = $item.parentNode;
-            //         }
+            if (window.User === undefined) {
+                return true;
+            }
 
-            //         // if the .list-group-item was found, hide it
-            //         if ($item.className.indexOf('list-group-item') !== -1) {
-            //             $item.style.display = 'none';
-            //         }
-            //     }
-            // });
+            axios({
+                method: 'post',
+                url: '/api/post/' + this.computedPostId + '/read'
+            }).then(function (response) {
+                if (response.data.read) {
+                    var $item = _this.$el;
+
+                    // find the closest parent node with .list-group-item
+                    while ($item.className.indexOf('list-group-item') === -1) {
+                        $item = $item.parentNode;
+                    }
+
+                    // if the .list-group-item was found, hide it
+                    if ($item.className.indexOf('list-group-item') !== -1) {
+                        $item.style.display = 'none';
+                    }
+                }
+            });
         }
     }
 });

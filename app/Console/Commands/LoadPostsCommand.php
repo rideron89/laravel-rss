@@ -35,7 +35,7 @@ class LoadPostsCommand extends Command
     {
 
         return [
-            ['ids', InputArgument::REQUIRED, 'List of comma-separated IDs to load posts for'],
+            ['ids', InputArgument::OPTIONAL, 'List of comma-separated IDs to load posts for'],
         ];
     }
 

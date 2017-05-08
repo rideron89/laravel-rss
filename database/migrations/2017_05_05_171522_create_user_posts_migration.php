@@ -18,7 +18,7 @@ class CreateUserPostsMigration extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('post_id');
             $table->boolean('read')->default(0);
-            $table->dateTime('read_at');
+            $table->dateTime('read_at')->nullable();
 
             $table->timestamps();
 

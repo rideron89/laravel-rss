@@ -37,24 +37,28 @@
 
         methods: {
             click: function(ev) {
-                // axios({
-                //     method: 'post',
-                //     url: '/api/post/' + this.computedPostId + '/read'
-                // }).then((response) => {
-                //     if (response.data.read) {
-                //         var $item = this.$el;
+                if (window.User === undefined) {
+                    return true;
+                }
 
-                //         // find the closest parent node with .list-group-item
-                //         while ($item.className.indexOf('list-group-item') === -1) {
-                //             $item = $item.parentNode;
-                //         }
+                axios({
+                    method: 'post',
+                    url: '/api/post/' + this.computedPostId + '/read'
+                }).then((response) => {
+                    if (response.data.read) {
+                        var $item = this.$el;
 
-                //         // if the .list-group-item was found, hide it
-                //         if ($item.className.indexOf('list-group-item') !== -1) {
-                //             $item.style.display = 'none';
-                //         }
-                //     }
-                // });
+                        // find the closest parent node with .list-group-item
+                        while ($item.className.indexOf('list-group-item') === -1) {
+                            $item = $item.parentNode;
+                        }
+
+                        // if the .list-group-item was found, hide it
+                        if ($item.className.indexOf('list-group-item') !== -1) {
+                            $item.style.display = 'none';
+                        }
+                    }
+                });
             }
         }
     }

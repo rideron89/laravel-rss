@@ -1,6 +1,7 @@
 <?php
 
 use App\Feed;
+use App\Post;
 use App\User;
 use App\UserFeed;
 use Illuminate\Database\Seeder;
@@ -44,5 +45,10 @@ class DatabaseSeeder extends Seeder
             'user_id' => $admin->id,
             'feed_id' => $fanGraphs->id,
         ]);
+
+        Artisan::call('passport:install');
+
+        Post::reguard();
+        Artisan::call('load:posts', ['ids' => '1,2,3']);
     }
 }

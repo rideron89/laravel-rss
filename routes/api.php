@@ -31,6 +31,5 @@ Route::group(['prefix' => 'user-feed'], function() {
 });
 
 Route::group(['prefix' => 'post'], function() {
-    Route::post('/load', 'PostsController@load');
     Route::post('/{post}/read', 'PostsController@markRead');
 });
