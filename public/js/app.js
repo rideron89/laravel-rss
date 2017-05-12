@@ -2259,6 +2259,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {},
@@ -2267,6 +2268,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             // specifies which UserFeed to load posts for
             selectedFeed: null,
+
+            searchQuery: '',
 
             // specifies the Post field and direction to load posts
             orderBy: 'date_published:desc',
@@ -2357,16 +2360,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
 
-        loadPosts: function loadPosts() {
+        loadPosts: function loadPosts(ev) {
             var _this3 = this;
 
             var params = {};
+
+            if (ev && ev.preventDefault) {
+                ev.preventDefault();
+            }
 
             params.orderBy = this.orderBy;
             params.page = this.page;
 
             if (this.selectedFeed) {
                 params.feed = this.selectedFeed;
+            }
+
+            if (this.searchQuery) {
+                params.search = this.searchQuery;
             }
 
             axios({
@@ -32313,30 +32324,30 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "panel panel-default"
+  return _c('div', [_c('div', {
+    staticClass: "rpanel"
   }, [_c('div', {
-    staticClass: "panel-heading"
-  }, [_vm._v("\n        Dashboard\n\n        "), _c('a', {
+    staticClass: "rpanel-sidebar"
+  }, [_c('div', {
+    staticClass: "rpanel-sidebar-links"
+  }, [_c('a', {
+    staticClass: "rpanel-sidebar-links-item first",
+    class: {
+      'active': _vm.selectedFeed == null
+    },
     attrs: {
       "href": "#"
     },
     on: {
-      "click": _vm.loadPosts
+      "click": function($event) {
+        _vm.selectedFeed = null
+      }
     }
   }, [_c('i', {
-    staticClass: "glyphicon glyphicon-refresh"
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "panel-body"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-3"
-  }, [_c('h4', [_vm._v("Filter by Feed")]), _vm._v(" "), (_vm.feeds.length < 1) ? _c('p', [_vm._v("No feeds")]) : _vm._e(), _vm._v(" "), (_vm.feeds.length > 0) ? _c('div', {
-    staticClass: "list-group"
-  }, _vm._l((_vm.feeds), function(feed) {
+    staticClass: "glyphicon glyphicon-home"
+  }), _vm._v(" All Feeds")]), _vm._v(" "), _vm._l((_vm.feeds), function(feed) {
     return _c('a', {
-      staticClass: "list-group-item",
+      staticClass: "rpanel-sidebar-links-item",
       class: {
         'active': feed.id == _vm.selectedFeed
       },
@@ -32348,12 +32359,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.selectedFeed = (_vm.selectedFeed != feed.id) ? feed.id : null
         }
       }
-    }, [_vm._v(_vm._s(feed.title) + " "), _c('span', {
-      staticClass: "pull-right badge"
+    }, [_vm._v("\n                    " + _vm._s(feed.title) + "\n                    "), _c('span', {
+      staticClass: "rbadge"
     }, [_vm._v(_vm._s(feed.post_count))])])
-  })) : _vm._e()]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-9"
-  }, [_c('div', [_vm._v("\n                    Sort by:\n                    "), _c('a', {
+  })], 2)]), _vm._v(" "), _c('div', {
+    staticClass: "rpanel-content"
+  }, [_c('div', {
+    staticClass: "rpanel-content-metabar"
+  }, [_c('div', {
+    staticClass: "rpanel-content-metabar-sorting"
+  }, [_c('a', {
+    staticClass: "rpanel-content-metabar-sorting-link",
+    class: {
+      'active': _vm.orderBy != 'date_published:asc'
+    },
     attrs: {
       "href": "#",
       "data-order-by": "date_published:desc"
@@ -32363,7 +32382,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.orderBy = 'date_published:desc'
       }
     }
-  }, [_vm._v("Newest first")]), _vm._v("\n                    |\n                    "), _c('a', {
+  }, [_vm._v("Newest first")]), _vm._v(" "), _c('a', {
+    staticClass: "rpanel-content-metabar-sorting-link",
+    class: {
+      'active': _vm.orderBy == 'date_published:asc'
+    },
     attrs: {
       "href": "#",
       "data-order-by": "date_published:asc"
@@ -32374,24 +32397,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("Oldest first")])]), _vm._v(" "), _c('div', {
-    staticStyle: {
-      "height": "15px"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "post-list"
-  }, [(_vm.posts.length < 1) ? _c('p', [_vm._v("No posts here!")]) : _vm._e(), _vm._v(" "), (_vm.posts.length > 0) ? _c('ul', {
-    staticClass: "list-group",
-    on: {
-      "click": _vm.listClick
-    }
+    staticClass: "rpanel-content-metabar-search"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "rpanel-content-list"
   }, _vm._l((_vm.posts), function(post) {
-    return _c('li', {
-      staticClass: "list-group-item"
+    return _c('div', {
+      staticClass: "rpanel-content-list-item"
     }, [_c('a', {
+      staticClass: "rpanel-content-list-item-link",
       attrs: {
-        "href": post.url,
         "target": "_blank",
-        "data-post-id": post.id
+        "href": post.url
       },
       domProps: {
         "innerHTML": _vm._s(post.title)
@@ -32400,8 +32416,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "innerHTML": _vm._s(post.description)
       }
-    }), _vm._v(" "), _c('p', [_c('em', [_vm._v("Published on " + _vm._s(post.date_published) + " (" + _vm._s(post.short_url) + ")")])])])
-  })) : _vm._e()])])])])])
+    }, [_vm._v(_vm._s(post.description))]), _vm._v(" "), _c('div', {
+      staticClass: "rpanel-content-list-item-extra"
+    }, [_c('span', {
+      staticClass: "feed"
+    }, [_vm._v(_vm._s(post.feed.user_feed[0].title))]), _vm._v(" "), _c('span', {
+      staticClass: "date"
+    }, [_vm._v(_vm._s(post.date_published))])])])
+  }))])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

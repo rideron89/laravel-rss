@@ -24,7 +24,8 @@ class PostsController extends Controller
     public function index(Request $request)
     {
         $userFeeds = UserFeed::with('feed')->where('user_id', Auth::user()->id)->get();
-        $posts = Post::whereIn('feed_id', $userFeeds->pluck('feed.id'))
+        $posts = Post::with('feed.user_feed')
+            ->whereIn('feed_id', $userFeeds->pluck('feed.id'))
             ->notReadByUser(Auth::user())
             ->containsSearch($request->input('search'))
             ->belongsToFeed($request->input('feed'))

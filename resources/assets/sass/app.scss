@@ -8,3 +8,131 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+$color-dark: #323436;
+$color-primary: #e86238;
+$color-secondary: #7932ff;
+
+.rpanel {
+    background: #fff;
+    display: flex;
+
+    .rpanel-sidebar {
+        background: $color-dark;
+        flex-shrink: 0;
+        padding: 40px 0;
+        position: relative;
+        width: 25%;
+    }
+
+    .rpanel-sidebar-links {
+    }
+
+    .rpanel-sidebar-links-item {
+        display: block;
+        font-size: 1.1em;
+        font-weight: 700;
+        margin: 0;
+        padding: 6px 40px;
+        position: relative;
+        text-transform: uppercase;
+        transition: all 0.25s ease;
+
+        &, &:active, &:hover, &:focus {
+            color: darken(#fff, 50%);
+            text-decoration: none;
+        }
+
+        &:hover, &.active {
+            color: #fff;
+        }
+
+        &.first {
+            border-bottom: 1px solid #3e3e3e;
+            margin-bottom: 5px;
+            padding-bottom: 15px;
+
+            i {
+                margin-right: 10px;
+            }
+        }
+
+        .rbadge {
+            background: $color-secondary;
+            color: #fff;
+            font-size: 0.7em;
+            position: absolute;
+            padding: 2px 4px;
+            right: -4px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+
+    .rpanel-content {
+        flex: 2 1 auto;
+    }
+
+    .rpanel-content-metabar {
+        background: #f7f5f4;
+        border-bottom: 1px solid #e6e3e0;
+        box-shadow: 0px 1px 5px #ececec;
+    }
+
+    .rpanel-content-metabar-sorting {
+        padding: 20px 35px;
+
+        &-link {
+            font-size: 0.9em;
+            font-weight: 700;
+            padding: 0 5px;
+            text-transform: uppercase;
+            transition: all 0.25s ease;
+
+            &, &:active, &:focus {
+                color: lighten($color-dark, 50%);
+                text-decoration: none;
+            }
+
+            &:hover, &.active {
+                color: $color-dark;
+            }
+        }
+    }
+
+    .rpanel-content-list {
+        padding: 20px 40px;
+    }
+
+    .rpanel-content-list-item {
+        padding: 10px 0;
+    }
+
+    .rpanel-content-list-item-extra {
+        .feed {
+            color: $color-primary;
+            display: inline-block;
+            font-weight: 700;
+            min-width: 125px;
+        }
+
+        .date {
+            display: inline-block;
+            font-style: italic;
+        }
+    }
+
+    .rpanel-content-list-item-link {
+        color: $color-dark;
+        font-weight: 700;
+    }
+
+    @media (min-height: 768px) {
+        height: calc(100vh - 101px);
+        overflow: hidden;
+
+        .rpanel-content-list {
+            height: calc(100% - 65px);
+            overflow: auto;
+        }
+    }
+}

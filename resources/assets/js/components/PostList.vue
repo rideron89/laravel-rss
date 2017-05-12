@@ -1,48 +1,49 @@
 <template>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Dashboard
+    <div>
+        <div class="rpanel">
+            <div class="rpanel-sidebar">
+                <div class="rpanel-sidebar-links">
+                    <a class="rpanel-sidebar-links-item first" href="#"
+                        :class="{ 'active': selectedFeed == null }"
+                        @click="selectedFeed = null"><i class="glyphicon glyphicon-home"></i> All Feeds</a>
 
-            <a href="#" @click="loadPosts"><i class="glyphicon glyphicon-refresh"></i></a>
-        </div>
+                    <a class="rpanel-sidebar-links-item" href="#"
+                        :class="{ 'active': feed.id == selectedFeed }"
+                        v-for="feed in feeds"
+                        @click="selectedFeed = (selectedFeed != feed.id) ? feed.id : null">
+                        {{ feed.title }}
+                        <span class="rbadge">{{ feed.post_count }}</span>
+                    </a>
+                    </li>
+                </div>
+            </div>
 
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-3">
-                    <h4>Filter by Feed</h4>
+            <div class="rpanel-content">
+                <div class="rpanel-content-metabar">
+                    <div class="rpanel-content-metabar-sorting">
+                        <a class="rpanel-content-metabar-sorting-link" href="#" data-order-by="date_published:desc"
+                            :class="{ 'active': orderBy != 'date_published:asc' }"
+                            @click="orderBy = 'date_published:desc'">Newest first</a>
 
-                    <p v-if="feeds.length < 1">No feeds</p>
+                        <a class="rpanel-content-metabar-sorting-link" href="#" data-order-by="date_published:asc"
+                            :class="{ 'active': orderBy == 'date_published:asc' }"
+                            @click="orderBy = 'date_published:asc'">Oldest first</a>
+                    </div>
 
-                    <div class="list-group" v-if="feeds.length > 0">
-                        <a class="list-group-item" href="#"
-                            v-for="feed in feeds"
-                            :class="{ 'active': feed.id == selectedFeed }"
-                            @click="selectedFeed = (selectedFeed != feed.id) ? feed.id : null">{{ feed.title }} <span class="pull-right badge">{{ feed.post_count }}</span></a>
+                    <div class="rpanel-content-metabar-search">
                     </div>
                 </div>
 
-                <div class="col-md-9">
-                    <div>
-                        Sort by:
-                        <a href="#" data-order-by="date_published:desc" @click="orderBy = 'date_published:desc'">Newest first</a>
-                        |
-                        <a href="#" data-order-by="date_published:asc" @click="orderBy = 'date_published:asc'">Oldest first</a>
-                    </div>
+                <div class="rpanel-content-list">
+                    <div class="rpanel-content-list-item" v-for="post in posts">
+                        <a class="rpanel-content-list-item-link" target="_blank" v-html="post.title" :href="post.url"></a>
 
-                    <div style="height: 15px;"></div>
+                        <p v-html="post.description">{{ post.description }}</p>
 
-                    <div class="post-list">
-                        <p v-if="posts.length < 1">No posts here!</p>
-
-                        <ul class="list-group" v-if="posts.length > 0" @click="listClick">
-                            <li class="list-group-item" v-for="post in posts">
-                                <a :href="post.url" v-html="post.title" target="_blank" :data-post-id="post.id"></a>
-
-                                <p v-html="post.description"></p>
-
-                                <p><em>Published on {{ post.date_published }} ({{ post.short_url }})</em></p>
-                            </li>
-                        </ul>
+                        <div class="rpanel-content-list-item-extra">
+                            <span class="feed">{{ post.feed.user_feed[0].title }}</span>
+                            <span class="date">{{ post.date_published }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -58,6 +59,8 @@ export default {
         return {
             // specifies which UserFeed to load posts for
             selectedFeed: null,
+
+            searchQuery: '',
 
             // specifies the Post field and direction to load posts
             orderBy: 'date_published:desc',
@@ -139,14 +142,22 @@ export default {
             });
         },
 
-        loadPosts: function() {
+        loadPosts: function(ev) {
             let params = {};
+
+            if (ev && ev.preventDefault) {
+                ev.preventDefault();
+            }
 
             params.orderBy = this.orderBy;
             params.page = this.page;
 
             if (this.selectedFeed) {
                 params.feed = this.selectedFeed;
+            }
+
+            if (this.searchQuery) {
+                params.search = this.searchQuery;
             }
 
             axios({

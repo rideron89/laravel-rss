@@ -12,6 +12,11 @@ class Feed extends Model
         'url',
     ];
 
+    public function user_feed()
+    {
+        return $this->hasMany(UserFeed::class);
+    }
+
     public function post()
     {
         return $this->hasMany(Post::class);
