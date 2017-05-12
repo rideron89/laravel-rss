@@ -14,7 +14,7 @@ class FeedsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:api');
     }
 
     /**
@@ -24,7 +24,7 @@ class FeedsController extends Controller
      */
     public function index()
     {
-        $feeds = UserFeed::where('user_id', Auth::user()->id)->get();
+        $feeds = Feed::all();
 
         return $feeds;
     }
@@ -37,20 +37,9 @@ class FeedsController extends Controller
      */
     public function store(Request $request)
     {
-        Feed::create($request->all());
+        $feed = Feed::create($request->all());
 
-        return redirect()->back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Feed  $feed
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request, Feed $feed)
-    {
-        return view('feeds.show', compact('feed'));
+        return response(json_encode(['status' => 'ok', 'item' => $feed]));
     }
 
     /**
@@ -64,7 +53,7 @@ class FeedsController extends Controller
     {
         $feed->update($request->all());
 
-        return redirect()->back();
+        return response(json_encode(['status' => 'ok', 'item' => $feed]));
     }
 
     /**
@@ -77,6 +66,6 @@ class FeedsController extends Controller
     {
         $feed->delete();
 
-        return redirect()->back();
+        return response(json_encode(['status' => 'ok']));
     }
 }

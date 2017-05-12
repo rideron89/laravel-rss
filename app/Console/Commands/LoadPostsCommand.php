@@ -74,23 +74,22 @@ class LoadPostsCommand extends Command
         $do_all = $this->option('all');
 
         if ($do_all) {
-            $confirm = $this->ask('Really try to load posts for ALL feeds? [y|N]', false);
-
-            if ($confirm && $confirm === 'y') {
-                $this->loadPosts($ids, true);
+            $this->loadPosts($ids, true);
+        } else {
+            if (count($ids) < 1 || $ids[0] === '') {
+                $this->call('help', ['command_name' => 'load:posts', 'format' => 'raw']);
             } else {
                 $this->loadPosts($ids);
             }
-        } else {
-            $this->loadPosts($ids);
         }
     }
 
     protected function loadPosts($ids, $all = false)
     {
         if ($all) {
-            $this->info('Loading posts for all feeds...');
             $feeds = Feed::all();
+
+            $this->info('Loading posts for all ' . count($feeds) . ' feeds...');
         } else {
             $this->info('Loading posts for ' . count($ids) . ' feeds...');
             $feeds = Feed::whereIn('id', $ids)->get();

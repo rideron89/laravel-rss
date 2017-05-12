@@ -17,7 +17,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'feed'], function() {
+Route::group(['prefix' => 'user-feeds'], function() {
+    Route::get    ('/',           'UserFeedsController@index');
+    Route::post   ('/',           'UserFeedsController@store');
+    Route::delete ('/{userFeed}', 'UserFeedsController@destroy');
+    Route::put    ('/{userFeed}', 'UserFeedsController@update');
+});
+
+Route::group(['middleware' => 'auth:api', 'prefix' => 'feed'], function() {
     Route::get(   '/',       'FeedsController@index');
     Route::post(  '/',       'FeedsController@store');
     Route::delete('/{feed}', 'FeedsController@destroy');
@@ -30,6 +37,9 @@ Route::group(['prefix' => 'user-feed'], function() {
     Route::put('/{user_feed}', 'UserFeedsController@update');
 });
 
-Route::group(['prefix' => 'post'], function() {
-    Route::post('/{post}/read', 'PostsController@markRead');
+
+Route::group(['prefix' => 'posts'], function() {
+    Route::get  ('/',            'PostsController@index');
+    Route::post ('/{post}/read', 'PostsController@markRead');
+    Route::post ('/read/',       'PostsController@bulkMarkRead');
 });

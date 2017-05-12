@@ -13,7 +13,10 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('feedList', require('./components/FeedList.vue'));
+Vue.component('postList', require('./components/PostList.vue'));
 Vue.component('homePostLink', require('./components/HomePostLink.vue'));
+Vue.component('bulkMarkReadLink', require('./components/BulkMarkReadLink.vue'));
 
 const app = new Vue({
     el: '#app'

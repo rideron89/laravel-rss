@@ -3,6 +3,12 @@
 @section('content')
 <div class="container">
     <div class="row">
+        <div class="col-sm-12">
+            <post-list></post-list>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -43,8 +49,27 @@
                                     |
                                     <a href="{{ url('/') }}?orderBy=date_published:asc">Oldest first</a>
 
-                                    <div style="height: 10px;"></div>
+                                    <div class="pull-right">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mark Read <span class="caret"></span></button>
+
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li><bulk-mark-read-link
+                                                href="{{ url('/api/post/read') }}"
+                                                time="1440"
+                                                text="Older than today"></bulk-mark-read-link></li>
+                                            <li><bulk-mark-read-link
+                                                href="{{ url('/api/post/read') }}"
+                                                time="10080"
+                                                text="Older than 1 week"></bulk-mark-read-link></li>
+                                            <li><bulk-mark-read-link
+                                                href="{{ url('/api/post/read') }}"
+                                                time="43200"
+                                                text="Older than 1 month"></bulk-mark-read-link></li>
+                                        </ul>
+                                    </div>
                                 </div>
+
+                                <div style="height: 10px;"></div>
                             </div>
 
                             @if (count($posts) < 1)

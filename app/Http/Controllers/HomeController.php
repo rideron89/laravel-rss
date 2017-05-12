@@ -31,22 +31,15 @@ class HomeController extends Controller
     {
         $userFeeds = UserFeed::with('feed')->where('user_id', Auth::user()->id)->get();
 
-        // load posts based on query arguments
-        $posts = Post::whereIn('feed_id', $userFeeds->pluck('feed.id'))
+        $query = Post::whereIn('feed_id', $userFeeds->pluck('feed.id'))
             ->notReadByUser(Auth::user())
             ->containsSearch($request->input('search'))
-            ->belongsToFeed($request->input('feed'))
-            ->setOrderBy($request->input('orderBy'))
-            ->simplePaginate(15);
+            ->belongsToFeed($request->input('feed'));
 
-        // count the unread posts based on query arguments
-        $unreadCount = Post::belongsToFeed($request->input('feed'))
-            ->notReadByUser(Auth::user())
-            ->containsSearch($request->input('search'))
-            ->count();
+        $posts = $query->setOrderBy($request->input('orderBy'))->simplePaginate(15);
+        $unreadCount = $query->count();
 
         foreach ($posts as $post) {
-            // include a shortened version of the post URL
             $post['shortUrl'] = parse_url($post->url, PHP_URL_HOST);
         }
 
