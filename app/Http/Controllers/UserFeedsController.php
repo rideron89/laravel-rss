@@ -26,7 +26,10 @@ class UserFeedsController extends Controller
      */
     public function index()
     {
-        $userFeeds = UserFeed::with('feed')->where('user_id', Auth::user()->id)->get();
+        $userFeeds = UserFeed::with('feed')
+            ->where('user_id', Auth::user()->id)
+            ->getPostCount()
+            ->get();
 
         return response(json_encode(['status' => 'ok', 'items' => $userFeeds]));
     }

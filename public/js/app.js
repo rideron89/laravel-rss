@@ -32331,7 +32331,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col-md-2"
+    staticClass: "col-md-3"
   }, [_c('h4', [_vm._v("Filter by Feed")]), _vm._v(" "), (_vm.feeds.length < 1) ? _c('p', [_vm._v("No feeds")]) : _vm._e(), _vm._v(" "), (_vm.feeds.length > 0) ? _c('div', {
     staticClass: "list-group"
   }, _vm._l((_vm.feeds), function(feed) {
@@ -32348,9 +32348,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.selectedFeed = (_vm.selectedFeed != feed.id) ? feed.id : null
         }
       }
-    }, [_vm._v(_vm._s(feed.title))])
+    }, [_vm._v(_vm._s(feed.title) + " "), _c('span', {
+      staticClass: "pull-right badge"
+    }, [_vm._v(_vm._s(feed.post_count))])])
   })) : _vm._e()]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-10"
+    staticClass: "col-md-9"
   }, [_c('div', [_vm._v("\n                    Sort by:\n                    "), _c('a', {
     attrs: {
       "href": "#",

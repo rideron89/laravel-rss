@@ -8,7 +8,7 @@
 
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <h4>Filter by Feed</h4>
 
                     <p v-if="feeds.length < 1">No feeds</p>
@@ -17,11 +17,11 @@
                         <a class="list-group-item" href="#"
                             v-for="feed in feeds"
                             :class="{ 'active': feed.id == selectedFeed }"
-                            @click="selectedFeed = (selectedFeed != feed.id) ? feed.id : null">{{ feed.title }}</a>
+                            @click="selectedFeed = (selectedFeed != feed.id) ? feed.id : null">{{ feed.title }} <span class="pull-right badge">{{ feed.post_count }}</span></a>
                     </div>
                 </div>
 
-                <div class="col-md-10">
+                <div class="col-md-9">
                     <div>
                         Sort by:
                         <a href="#" data-order-by="date_published:desc" @click="orderBy = 'date_published:desc'">Newest first</a>
