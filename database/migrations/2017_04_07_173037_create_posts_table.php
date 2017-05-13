@@ -19,7 +19,7 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->string('url');
-            $table->string('date_published')->nullable();
+            $table->dateTime('date_published')->nullable();
 
             $table->timestamps();
 

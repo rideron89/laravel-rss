@@ -14,7 +14,7 @@ class Post extends Model
         'feed_id', 'title', 'description', 'url', 'date_published',
     ];
 
-    protected $dateFormat = 'U';
+    // protected $dateFormat = 'U';
 
     public function feed()
     {
