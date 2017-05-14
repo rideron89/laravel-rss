@@ -130,6 +130,13 @@ class LoadPostsCommand extends Command
                                 $post['url'] = $arr[$j]['value'];
                             } else if ($arr[$j]['tag'] === 'pubDate') {
                                 $post['date_published'] = date('Y-m-d H:i:s', strtotime($arr[$j]['value']));
+                            } else if ($arr[$j]['tag'] === 'description') {
+                                if (strlen($arr[$j]['value']) > 255) {
+                                    // return smaller version
+                                    $post['description'] = substr($arr[$j]['value'], 0, 252) . '...';
+                                } else {
+                                    $post['description'] = $arr[$j]['value'];
+                                }
                             } else {
                                 if (isset($arr[$j]['value'])) {
                                     $post[$arr[$j]['tag']] = $arr[$j]['value'];
