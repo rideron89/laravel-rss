@@ -33,7 +33,7 @@ class PostsController extends Controller
             ->simplePaginate(15);
 
         foreach ($posts as $post) {
-            $post->date_published = date('d-m-Y H:m:s', $post->date_published);
+            // $post->date_published = date('d-m-Y H:m:s', $post->date_published);
 
             $post['short_url'] = parse_url($post->url, PHP_URL_HOST);
         }

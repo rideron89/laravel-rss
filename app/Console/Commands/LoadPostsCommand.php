@@ -121,15 +121,15 @@ class LoadPostsCommand extends Command
 
                         $post = [
                             'feed_id' => $feed->id,
-                            'created_at' => date('U'),
-                            'updated_at' => date('U'),
+                            'created_at' => time(),
+                            'updated_at' => time(),
                         ];
 
                         for ($j = 0; $j < count($arr); $j++) {
                             if ($arr[$j]['tag'] === 'link') {
                                 $post['url'] = $arr[$j]['value'];
                             } else if ($arr[$j]['tag'] === 'pubDate') {
-                                $post['date_published'] = strtotime($arr[$j]['value']);
+                                $post['date_published'] = date('Y-m-d H:i:s', strtotime($arr[$j]['value']));
                             } else {
                                 if (isset($arr[$j]['value'])) {
                                     $post[$arr[$j]['tag']] = $arr[$j]['value'];

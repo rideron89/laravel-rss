@@ -14,8 +14,6 @@ class Post extends Model
         'feed_id', 'title', 'description', 'url', 'date_published',
     ];
 
-    // protected $dateFormat = 'U';
-
     public function feed()
     {
         return $this->belongsTo(Feed::class);
