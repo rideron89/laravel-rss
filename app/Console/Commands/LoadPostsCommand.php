@@ -133,7 +133,7 @@ class LoadPostsCommand extends Command
                             } else if ($arr[$j]['tag'] === 'description') {
                                 if (strlen($arr[$j]['value']) > 255) {
                                     // return smaller version
-                                    $post['description'] = substr($arr[$j]['value'], 0, 252) . '...';
+                                    $post['description'] = substr($arr[$j]['value'], 0, 248) . '...';
                                 } else {
                                     $post['description'] = $arr[$j]['value'];
                                 }
