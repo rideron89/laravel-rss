@@ -21,6 +21,8 @@ class HomeController extends Controller
     }
 
     /**
+    * DEPRECATED
+    *
     * Show the application dashboard.
     *
     * @param Illuminate\Http\Request $request
@@ -37,13 +39,12 @@ class HomeController extends Controller
             ->belongsToFeed($request->input('feed'));
 
         $posts = $query->setOrderBy($request->input('orderBy'))->simplePaginate(15);
-        $unreadCount = $query->count();
 
         foreach ($posts as $post) {
             $post['shortUrl'] = parse_url($post->url, PHP_URL_HOST);
         }
 
-        return view('home', compact('userFeeds', 'posts', 'unreadCount'));
+        return view('home', compact('userFeeds', 'posts'));
     }
 
     /**
